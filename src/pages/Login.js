@@ -83,7 +83,7 @@ function Login(){
        })
        .catch((err)=>{
 
-        if(err.status){
+        if(err){
           Seterror(true)
           Setmessage(err.response.data.message)
         }
@@ -105,6 +105,13 @@ function Login(){
       }
       usersignin(data)
       .then( (res) => {
+       console.log(res)
+
+        if(res.data.message){
+          Seterror(true)
+          Setmessage(res.data.message)
+          return
+        }
               
                Seterror(false)
           

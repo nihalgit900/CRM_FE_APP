@@ -4,7 +4,7 @@ import { gettickets,updateticketdetails } from "../apis/ticket";
 import { useEffect, useState } from "react";
 import MaterialTable from 'material-table'
 import { ThemeProvider, createTheme } from '@mui/material';
-import { getallusers } from "../apis/users";
+import { getallusers,updateuserstatus } from "../apis/users";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 
@@ -29,6 +29,12 @@ function Admin(){
  var [updateticket,Setupdateticket] = useState({});
 
  var [currentticket,Setcurrentticketdetail]=useState({})
+ 
+ var [currentusereditdata,Setcurrentusereditdata] = useState({})
+ 
+ var [userupdatemodal,Setuserupdatemodal]= useState(false)
+
+
 
  useEffect(()=>{
     fetchtickets();
@@ -160,6 +166,47 @@ var editticket=(e)=>{
         )
       }
 
+      var userdataedit=(rowdata)=>{
+        Setuserupdatemodal(true);
+        Setcurrentusereditdata(rowdata);
+
+       
+      }
+      var closeuserupdatemodal=()=>{
+        Setuserupdatemodal(false);
+      }
+
+      var userstatusupdate=(e)=>{
+        console.log(e.target.value)
+        var name = e.target.name
+        if(name==="status"){
+            currentusereditdata.userStatus =e.target.value;
+
+        }
+        Setcurrentusereditdata({...currentusereditdata})
+        console.log(currentusereditdata)
+      }
+      var userstatusapicall=(e)=>{
+
+        var userdata={
+            _id:currentusereditdata._id,
+            status:currentusereditdata.userStatus,
+        }
+
+    e.preventDefault();
+        updateuserstatus(userdata).then((res)=>{
+            if(res.status==200){
+            console.log("user status updated")
+            Setuserupdatemodal(false)
+           
+            }
+        })
+        .catch((e)=>{
+            console.log("hello")
+            console.log(e.message)
+        })
+      }
+
     return (
         
         <div className="row bg-light" >
@@ -274,6 +321,7 @@ var editticket=(e)=>{
                         <div style={{ maxWidth: '100%' }}>
             <ThemeProvider theme={defaultMaterialTheme}>
         <MaterialTable
+          onRowClick ={(e,rowdata)=>{userdataedit(rowdata)}} 
           columns={[
             { title: 'USER_ID', field: 'userId' },
             { title: 'NAME', field: 'name' },
@@ -286,6 +334,47 @@ var editticket=(e)=>{
           title="Customer Details"
         />
         </ThemeProvider>
+        <Modal
+        show={userupdatemodal}
+        onHide={closeuserupdatemodal}
+        backdrop="static"
+        keyboard={false}
+      >
+        <Modal.Header closeButton>
+          <Modal.Title>Update user status</Modal.Title>
+        
+    
+
+        </Modal.Header>
+        <Modal.Body>
+      
+        <form onSubmit={userstatusapicall}>
+        <p>id : {currentusereditdata._id}
+        </p>
+       
+
+       <label>name</label> <input className="input-group" disabled name="name" value={currentusereditdata.name} ></input>
+       <label>userID</label> <textarea className="input-group" disabled name="userID" value={currentusereditdata.userId} ></textarea>
+       <label>email</label> <input className="input-group"disabled name="email" value={currentusereditdata.email} ></input>
+       <label>userStatus</label> <select className="input-select" name="status" value={currentusereditdata.userStatus}  onChange={userstatusupdate}>
+        <option>PENDING</option>
+        <option>BLOCKED</option>
+        <option>APPROVED</option>
+        <option>REJECTED</option>   </select><br />
+    
+       <label>userTypes</label> <input className="input-group" disabled name="userTypes" value={currentusereditdata.userTypes} ></input>
+       <Button variant="secondary" onClick={closeuserupdatemodal} >
+            Close
+          </Button>
+          <Button type="submit" variant="primary">Update</Button>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+         
+        </Modal.Footer>
+      
+      </Modal>
+
         
       </div>
       <hr />
@@ -313,7 +402,8 @@ var editticket=(e)=>{
          </ThemeProvider>
          <Modal
         show={ticketupdatemodal}
-        onHide={Setticketupdatemodal}
+        onHide={closeeditticketmodal}
+       
         backdrop="static"
         keyboard={false}
       >
