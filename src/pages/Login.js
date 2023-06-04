@@ -79,6 +79,7 @@ function Login(){
        .then((res)=>{
               Seterror(false)
               Setmessage("Signup Sucessfull..! ")
+              window.location.href="/"
 
        })
        .catch((err)=>{
@@ -142,9 +143,9 @@ function Login(){
       
       .catch((err)=>
       {
-             if(err.status){
+             if(err){
               Seterror(true)
-              Setmessage(err.response.data.meassage)
+              Setmessage(err.response.data.message)
              }
       }
       )

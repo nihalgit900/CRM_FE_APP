@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export async function gettickets(data){
-                return axios.get("http://localhost:8000/crm/api/v1/tickets",{
+    console.log("hello")
+                return await axios.get("http://localhost:8000/crm/api/v1/tickets",{
                     headers :{
                         'x-access-token':localStorage.getItem("token")
                     }
