@@ -1,12 +1,15 @@
 
 
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import Tickethandler from '../handlers/Tickethandler';
 
 
 const Status =(props) =>{
+     
+    console.log(props.ticketdetails)
 
-    const statusdata=props.data;
-    console.log(statusdata)
+    const statusdata=Tickethandler(props.ticketdetails);
+   
 
     const usertype= localStorage.getItem("name")
 
@@ -37,11 +40,11 @@ const Status =(props) =>{
                         <hr/>
                         <div className="row">
                             <div className="col">
-                                <h1 className="text-dark mx-4"> {5} </h1>
+                                <h1 className="text-dark mx-4"> {statusdata.open} </h1>
                             </div>
                             <div className="col">
                                 <div style={{width:60, height:60}}>
-                                <CircularProgressbar value={5} styles={buildStyles({ textColor:"red", pathColor:"darkBlue"})} />
+                                <CircularProgressbar value={statusdata.open} styles={buildStyles({ textColor:"red", pathColor:"darkBlue"})} />
                                 </div>
                             </div>
                         </div>
@@ -59,11 +62,11 @@ const Status =(props) =>{
                         <hr/>
                         <div className="row">
                             <div className="col">
-                                <h1 className="text-dark mx-4"> {5} </h1>
+                                <h1 className="text-dark mx-4"> {statusdata.inprogress} </h1>
                             </div>
                             <div className="col">
                                 <div style={{width:60, height:60}}>
-                                <CircularProgressbar value={5} styles={buildStyles({ textColor:"red", pathColor:"#AA6C39"})} />
+                                <CircularProgressbar value={statusdata.inprogress} styles={buildStyles({ textColor:"red", pathColor:"#AA6C39"})} />
                                 </div>
                             </div>
                         </div>
@@ -81,11 +84,11 @@ const Status =(props) =>{
                         <hr/>
                         <div className="row">
                             <div className="col">
-                                <h1 className="text-dark mx-4"> {5} </h1>
+                                <h1 className="text-dark mx-4"> {statusdata.closed} </h1>
                             </div>
                             <div className="col">
                                 <div style={{width:60, height:60}}>
-                                <CircularProgressbar value={5} styles={buildStyles({ textColor:"red", pathColor:"green"})} />
+                                <CircularProgressbar value={statusdata.closed} styles={buildStyles({ textColor:"red", pathColor:"green"})} />
                                 </div>
                             </div>
                         </div>
@@ -103,11 +106,11 @@ const Status =(props) =>{
                         <hr/>
                         <div className="row">
                             <div className="col">
-                                <h1 className="text-dark mx-4"> {5} </h1>
+                                <h1 className="text-dark mx-4"> {statusdata.blocked} </h1>
                             </div>
                             <div className="col">
                                 <div style={{width:60, height:60}}>
-                                <CircularProgressbar value={5} styles={buildStyles({ textColor:"red", pathColor:"black"})} />
+                                <CircularProgressbar value={statusdata.blocked} styles={buildStyles({ textColor:"red", pathColor:"black"})} />
                                 </div>
                             </div>
                         </div>

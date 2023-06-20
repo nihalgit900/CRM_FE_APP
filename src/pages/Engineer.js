@@ -1,32 +1,13 @@
 import Sidebar from '../components/Sidebar'
 import Status from '../components/Status'
-import { gettickets } from '../apis/ticket'
-import { useState,useEffect } from 'react'
+import Fetchtickethook from '../customhooks/Fetchtickethook'
 
 function Engineer(){
 
-  var [ticket,Setticket]=useState([{}])
-  useEffect(()=>{
 
-    fetchtickets();
-    
-},[])
-const fetchtickets=()=>{
-    gettickets()
-    
-    .then((res)=>{
-      console.log(res.data)
-     
-        Setticket(res.data)
-   
-        console.log(ticket)
-
-    })
-    .catch((e)=>{
-        console.log(e)
-    })
-
-  }
+    const [ticket]= Fetchtickethook();
+    console.log(ticket)
+  
 
     return (
         <div>
@@ -34,7 +15,7 @@ const fetchtickets=()=>{
     
        <div>
     
-          <Status props={ticket} />
+          <Status ticketdetails={ticket} />
 
         </div>
         </div>
@@ -42,3 +23,4 @@ const fetchtickets=()=>{
 }
 
 export default Engineer
+

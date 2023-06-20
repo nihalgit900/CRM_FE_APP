@@ -7,10 +7,14 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import { getallusers,updateuserstatus } from "../apis/users";
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
+import Fetchtickethook from "../customhooks/Fetchtickethook";
+import Status from "../components/Status";
 
 
 
 function Admin(){
+
+    const [ticketdata,fetchtickets]=Fetchtickethook()
 
     
     const defaultMaterialTheme = createTheme();
@@ -18,7 +22,7 @@ function Admin(){
 
  var usertype=localStorage.getItem("name");
 
- var [ticketdata,Setticketdata] = useState([{}]);
+ //var [ticketdata,Setticketdata] = useState([{}]);
 
  var [userdata,Setuserdata]=useState([{}]);
 
@@ -37,7 +41,7 @@ function Admin(){
 
 
  useEffect(()=>{
-    fetchtickets();
+    //fetchtickets();
     getalluserdetails();
     
     
@@ -56,7 +60,7 @@ function Admin(){
     })
  }
 
-const fetchtickets=()=>{
+/*const fetchtickets=()=>{
     gettickets()
     .then((res)=>{
      
@@ -105,7 +109,7 @@ console.log(ticketdata)
 
 
 
-}
+}*/
 var setrowdata=(rowdata)=>{
     console.log(rowdata)
     Setticketupdatemodal(true)
@@ -217,106 +221,9 @@ var editticket=(e)=>{
            
                   </div>
             <div className="col  my-4">
+                <Status ticketdetails={ticketdata} />
 
-                <div className="container">
-
-                   
-                        <h3 className="text-primary text-center" > Welcome, {usertype} </h3>
-                        <p className="text-center text-muted" > Take a quick look at your admin stats below </p>
-
-
-                        <div className="row text-center">
-
-                            <div className="col-xs-12 col-lg-3 col-md-6 my-1">
-                                <div className="card cardItem shadow  bg-primary text-dark bg-opacity-25 border border-primary">
-                                    <div className="card-body">
-                                        <h5 className="mb-2" >
-                                            <i className="text-primary bi bi-pencil mx-2"></i>
-                                            Open
-                                        </h5>
-                                        <hr/>
-                                        <div className="row">
-                                            <div className="col">
-                                                <h1 className="text-dark mx-4"> {ticketdata.open} </h1>
-                                            </div>
-                                            <div className="col">
-                                                <div style={{width:60, height:60}}>
-                                                <CircularProgressbar value={ticketdata.open} styles={buildStyles({ textColor:"red", pathColor:"darkBlue"})} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                              <div className="col-xs-12 col-lg-3 col-md-6 my-1">
-                                <div className="card cardItem shadow  bg-warning text-dark bg-opacity-25 border border-warning">
-                                    <div className="card-body">
-                                        <h5 className="mb-2" >
-                                            <i className="text-warning bi bi-lightning-charge mx-2"></i>
-                                            Progress
-                                        </h5>
-                                        <hr/>
-                                        <div className="row">
-                                            <div className="col">
-                                                <h1 className="text-dark mx-4"> {ticketdata.inprogress} </h1>
-                                            </div>
-                                            <div className="col">
-                                                <div style={{width:60, height:60}}>
-                                                <CircularProgressbar value={ticketdata.inprogress} styles={buildStyles({ textColor:"red", pathColor:"#AA6C39"})} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                             <div className="col-xs-12 col-lg-3 col-md-6 my-1">
-                                <div className="card cardItem shadow  bg-success text-dark bg-opacity-25 border border-success">
-                                    <div className="card-body">
-                                        <h5 className="mb-2" >
-                                            <i className="text-success bi bi-check-circle mx-2"></i>
-                                            Closed
-                                        </h5>
-                                        <hr/>
-                                        <div className="row">
-                                            <div className="col">
-                                                <h1 className="text-dark mx-4"> {ticketdata.closed} </h1>
-                                            </div>
-                                            <div className="col">
-                                                <div style={{width:60, height:60}}>
-                                                <CircularProgressbar value={ticketdata.closed} styles={buildStyles({ textColor:"red", pathColor:"green"})} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                             <div className="col-xs-12 col-lg-3 col-md-6 my-1">
-                                <div className="card cardItem shadow  bg-secondary text-dark bg-opacity-25 border border-secondary">
-                                    <div className="card-body">
-                                        <h5 className="mb-2" >
-                                            <i className="text-dark bi bi-slash-circle mx-2"></i>
-                                            Blocked
-                                        </h5>
-                                        <hr/>
-                                        <div className="row">
-                                            <div className="col">
-                                                <h1 className="text-dark mx-4"> {ticketdata.blocked} </h1>
-                                            </div>
-                                            <div className="col">
-                                                <div style={{width:60, height:60}}>
-                                                <CircularProgressbar value={ticketdata.blocked} styles={buildStyles({ textColor:"red", pathColor:"black"})} />
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-
-                        </div>
+               
                         <br />
                         <div style={{ maxWidth: '100%' }}>
             <ThemeProvider theme={defaultMaterialTheme}>
@@ -393,7 +300,7 @@ var editticket=(e)=>{
             { title: 'STATUS', field: 'status' },
 
           ]}
-          data={ticket}
+          data={ticketdata}
 
           title="TICKET RECORDS"
 
@@ -459,7 +366,7 @@ var editticket=(e)=>{
           
 
  
-      </div>
+    
     
 
         
